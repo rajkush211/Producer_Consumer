@@ -10,13 +10,12 @@ public class Consumer extends Thread {
 
     @Override
     public void run() {
+        System.out.println("Consumer...");
         try {
             while (true) {
-                synchronized (numList) {
-                    if (numList.size() == 0) {
-                        numList.wait();
-                    } else consumeList();
-                }
+//                synchronized (numList) {
+                consumeNumber();
+//                }
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -24,11 +23,10 @@ public class Consumer extends Thread {
         }
     }
 
-    private void consumeList() throws InterruptedException {
-        while (!numList.isEmpty()){
-            Thread.sleep(1000);
+    private void consumeNumber() throws InterruptedException {
+        if (numList.size() != 0) {
             System.out.println("Consumed : " + numList.remove(0));
+//            this.sleep(1000);
         }
-        numList.notifyAll();
     }
 }

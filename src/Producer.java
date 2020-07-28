@@ -12,23 +12,20 @@ public class Producer extends Thread {
     public void run() {
         try {
             while (true) {
-                synchronized (numList) {
-                    if (numList.size() > 0) {
-                        numList.wait();
-                    } else produceList();
-                }
+//                synchronized (numList) {
+                    if (numList.size() < 10) {
+                        produceNumber();
+                    }
+//                }
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    private void produceList() throws InterruptedException {
-        for (int counter = 1; counter <= 5; counter++) {
-            Thread.sleep(1000);
-            numList.add(counter);
-            System.out.println("Produced : " + counter);
-        }
-        numList.notifyAll();
+    private void produceNumber() throws InterruptedException {
+        numList.add(numList.size() + 1);
+        System.out.println("Produced : " + numList.size());
+//        this.sleep(800);
     }
 }
